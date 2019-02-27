@@ -28,7 +28,7 @@ namespace PetitChef.Models
 
         public string Tempo { get; set; }
 
-        public string Calorias { get; set; }
+        public int Calorias { get; set; }
 
         public bool Gluten { get; set; }
 
@@ -153,7 +153,9 @@ namespace PetitChef.Models
 
                     case "Calorias":
                         {
-                            receita.Calorias = texto.Groups[2].Value;
+                            var rgxCalorias = Regex.Match(text, @"(\d+)(.+)");
+
+                            receita.Calorias = TarefaReceita.StringForInt(rgxCalorias.Groups[1].Value);
                             break;
                         }
 
