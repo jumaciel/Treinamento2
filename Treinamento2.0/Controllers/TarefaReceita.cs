@@ -79,5 +79,14 @@ namespace Treinamento2._0.Controllers
             }
         }
 
+        public static int StringForInt(string stg) {
+            int teste;
+            if ((int.TryParse(stg.ToString(), out teste)))
+            {
+                return teste;
+            }
+            return 0;
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Text.RegularExpressions;
+using Treinamento2._0.Controllers;
 
 namespace PetitChef.Models
 {
@@ -13,11 +14,11 @@ namespace PetitChef.Models
 
         public string Nota { get; set; }
 
-        public string Votos { get; set; }
+        public int Votos { get; set; }
 
-        public string Comentarios { get; set; }
+        public int Comentarios { get; set; }
 
-        public string Ameis { get; set; }
+        public int Ameis { get; set; }
 
         public string Ingredientes { get; set; }
 
@@ -40,7 +41,7 @@ namespace PetitChef.Models
             HtmlNode titulo = linha.SelectSingleNode("./h2/a");
             receita.Titulo = titulo.InnerText;
         }
-         
+
         public static void GetContemGluten(Receita receita, HtmlNode linha)
         {
             var gluten = linha.SelectSingleNode("./div/img[@title='sem glúten']");
@@ -49,7 +50,7 @@ namespace PetitChef.Models
 
             else receita.Gluten = false;
         }
-         
+
         public static void GetAvaliacaoVotos(Receita receita, HtmlNode linha)
         {
             HtmlNode nota = linha.SelectSingleNode("./div/i[contains(@class, 'note-fa')]");
@@ -63,46 +64,45 @@ namespace PetitChef.Models
                 }
 
                 var texto = Regex.Match(notaVotos, @"(.+)/5 \((.+)( votos)\)");
+
                 receita.Nota = texto.Groups[1].Value;
-                receita.Votos = texto.Groups[2].Value;
+
+                receita.Votos = TarefaReceita.StringForInt(texto.Groups[2].Value);
             }
 
             receita.Nota = "";
-            receita.Votos = "";
         }
-         
+
         public static void GetAmeis(Receita receita, HtmlNode linha)
         {
             var likes = linha.SelectSingleNode("./div[contains(@class,'ir-vote')]/i[contains(@class, 'fa-heart')]/following-sibling::text()");
-            if (likes != null)
+            if (likes != null)                
             {
-                receita.Ameis = likes.InnerText;
-            }
-            receita.Ameis = "";
+                var rgxAmeis = Regex.Match(likes.InnerText, @"(\()(\d+)(\))");
+                receita.Ameis = TarefaReceita.StringForInt(rgxAmeis.Groups[2].Value);
+            }          
         }
-         
+
         public static void GetComentarios(Receita receita, HtmlNode linha)
         {
             var comentarios = linha.SelectSingleNode("./div[contains(@class,'ir-vote')]/i[contains(@class, 'fa-comments')]/following-sibling::text()");
             if (comentarios != null)
             {
-                var rgComentarios = Regex.Match(comentarios.InnerText, @"(\(\d+\))");
+                var rgComentarios = Regex.Match(comentarios.InnerText, @"(\()(\d+)(\))");
 
                 if (rgComentarios == null) throw new Exception("Não foi possivel capturar os comentarios da receita!");
 
-                receita.Comentarios = rgComentarios.Value;
+                receita.Comentarios = TarefaReceita.StringForInt(rgComentarios.Groups[2].Value);
             }
-
-            receita.Comentarios = "";
         }
-         
+
         public static void GetIngredientes(Receita receita, HtmlNode linha)
         {
             HtmlNode ingredientes = linha.SelectSingleNode("./div[@class='ingredients']");
 
             receita.Ingredientes = ingredientes.InnerText;
         }
-         
+
         public static void GetUrl(Receita receita, HtmlNode linha)
         {
             HtmlNode url = linha.SelectSingleNode("//h2[@class='ir-title']/a");
@@ -115,7 +115,7 @@ namespace PetitChef.Models
 
             receita.Link = href;
         }
-         
+
         public static void GetPropriedades(Receita receita, HtmlNode linha)
         {
             var propriedades = linha.SelectNodes("./div[@class='prop']/span");

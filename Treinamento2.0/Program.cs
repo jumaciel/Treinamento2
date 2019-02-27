@@ -10,13 +10,13 @@ namespace Treinamento2._0
     {
         static void Main(string[] args)
         {
-            //TarefaReceita tarefa1 = new TarefaReceita();
-            //tarefa1.Paginacao();
-            //var listareceitas = tarefa1.GetListaReceitas();
+            TarefaReceita tarefa1 = new TarefaReceita();
+            tarefa1.Paginacao();
+            var listareceitas = tarefa1.GetListaReceitas();
 
-            TarefaEspecies tarefa2 = new TarefaEspecies();
-            tarefa2.Paginacao();
-            var listaSpecies = tarefa2.GetListaSpecies();
+            //TarefaEspecies tarefa2 = new TarefaEspecies();
+            //tarefa2.Paginacao();
+            //var listaSpecies = tarefa2.GetListaSpecies();
             
         }
     }
