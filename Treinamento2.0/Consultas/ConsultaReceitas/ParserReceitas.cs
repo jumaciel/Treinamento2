@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Treinamento2._0.Consultas.ConsultaReceita;
 using Treinamento2._0.Models;
 
 namespace Treinamento2._0.Consultas.ConsultaReceitas

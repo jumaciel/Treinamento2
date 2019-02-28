@@ -1,9 +1,6 @@
 ﻿using HtmlAgilityPack;
 using Treinamento2._0.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using Treinamento2._0.Utils;
 using Treinamento2._0.Consultas.ConsultaReceitas;
 
